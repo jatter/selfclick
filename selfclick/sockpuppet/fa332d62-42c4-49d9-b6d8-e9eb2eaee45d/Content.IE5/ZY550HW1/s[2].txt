@@ -1,4 +1,0 @@
-(function(){
-var json={};
-window['jQuery112404097748366738651_1566813434098'](json);
-})();

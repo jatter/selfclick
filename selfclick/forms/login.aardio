@@ -31,11 +31,11 @@ listview={cls="listview";left=511;top=24;right=934;bottom=645;ah=1;aw=1;db=0.17;
 import sqlite;
 var db = sqlite("/addb.dll");//打开数据库连接
 
-var driver = chrome.driver();
-driver.addArguments("--app=https://www.zhihu.com");
-driver.addArguments("--headless");
+//var driver = chrome.driver();
+//driver.addArguments("--app=https://www.zhihu.com");
+//driver.addArguments("--headless");
 //创建会话，打开chrome浏览器，Chrome新版会强制显示控制台
-var browser = driver.startBrowser();
+//var browser = driver.startBrowser();
 
 //动态表格
 winform.listview.insertColumn("用户编号",86);
@@ -159,6 +159,34 @@ winform.btnLogin.oncommand = function(id,event){
 		win.setFocus(winform.editPassword.hwnd);
 		return ; 
 	}
+	
+	loginWeb.go("https://www.zhihu.com/signin?next=%2F");
+    loginWeb.wait();
+	var signFlowTabEle = loginWeb.waitQueryEles({innerHTML="密码登录"; tagName="^DIV$"}, 2000);
+    signFlowTabEle.click();
+	//console.log("=====================22====="+signFlowTabEle.innerHTML);
+	
+	var unameEle=loginWeb.waitQueryEles ({name="username"; tagName="input"}, 2000);	
+	var upwdEle=loginWeb.waitQueryEles ({name="password"; tagName="input"}, 2000);
+	unameEle['value'] = userName;
+	upwdEle['value'] = password;	
+
+
+    var submitButtonEle = loginWeb.waitQueryEles({innerHTML="注册/登录"; tagName="^BUTTON$"}, 2000);
+    var inputs = loginWeb.waitQueryEles(tagName = "input";)
+	for(i=1;#inputs;1){
+        console.log(inputs[i]['value']+";;"+inputs[i]['placeholder']);
+	}
+    submitButtonEle.click();
+    loginWeb.wait(,3000);
+    console.log("==================submitButtonEle===innerHTML=====" + loginWeb.body.innerHTML);
+	debug.log4a.err("===submitButtonEle===innerHTML=====" + loginWeb.body.innerHTML);
+
+	//qEle =wb1.waitQueryEles(id="dt-tab");
+    //var photocontainer = qEle[1].innerHTML;
+	return ;
+	
+	/**
 	browser.go("https://www.zhihu.com/signin?next=%2F");
 	var signFlowEle = browser.querySelector("body").querySelectorAll(".SignFlow-tab")[2];
 	if(signFlowEle){
@@ -174,7 +202,7 @@ winform.btnLogin.oncommand = function(id,event){
 	    console.log("body1:"+browser.querySelector("body").querySelector(".SignFlow-accountInput > input").innerText());	//var passwordEle = browser.querySelector("body").querySelector(".Input");
 		//console.log("passwordEle:"+passwordEle.innerHtml());
 	}
-
+**/
 	return ; 
 	
     var http = inet.http();
